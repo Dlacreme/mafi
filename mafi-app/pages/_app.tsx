@@ -1,6 +1,8 @@
-import '../styles/index.css'
+import Router from 'next/router';
+import '../styles/index.css';
 import { useState } from 'react';
 import { CurrentUser } from '../services/current-user';
+import { Api } from '../services/api';
 
 /**
  * For some reason, Next does not support Typescript format for the root component
@@ -10,6 +12,15 @@ function MafiApp({ Component, pageProps }) {
   const [isAuth, setIsAuth] = useState(false);
 
   function componentDidMount() {
+    Api.init();
+    Api.get('/me').then(r => {
+      const pathname = window.location.pathname;
+      if (pathname === '' || pathname === '/') {
+        Router.push('/dashboard');
+      }
+    }).catch(e => {
+      Router.push('/login');
+    });
     window.addEventListener(CurrentUser.loggedInEvent, () => setIsAuth(true));
     window.addEventListener(CurrentUser.loggedOutEvent, () => setIsAuth(false));
   }

@@ -18,6 +18,7 @@ class UserController < ApplicationController
   end
 
   def me
+    return unauthorized unless @current_user
     data load(@current_user.id)
   end
 

@@ -53,6 +53,11 @@ class ApplicationController < ActionController::API
     return render_json 501, "Endpoint is not ready"
   end
 
+  # User does not have access
+  def unauthorized
+    return render_json 401, "Unauthorized"
+  end
+
   ## HELPERS
 
   # process_form process a form if it's valid and return an appropriate HTTP code. !! It does not render
