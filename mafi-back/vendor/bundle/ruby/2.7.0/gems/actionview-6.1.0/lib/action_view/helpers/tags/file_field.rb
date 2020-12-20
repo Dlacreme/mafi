@@ -1,0 +1,13 @@
+# typed: ignore
+# typed: ignore
+# typed: strict
+# frozen_string_literal: true
+
+module ActionView
+  module Helpers
+    module Tags # :nodoc:
+      class FileField < TextField # :nodoc:
+      end
+    end
+  end
+end
