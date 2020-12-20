@@ -2,7 +2,9 @@ import Router from "next/router";
 import { Component } from "react";
 import { CurrentUser } from "../services/current-user";
 
-export class PrivateComponent extends Component {
+export interface None {}
+
+export class PrivateComponent<P, S> extends Component<P, S> {
   public componentDidMount(): void {
     return this.preventUnauthorizedUser();
   }

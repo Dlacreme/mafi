@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 
+export enum UserRole {
+  Admin = 'admin',
+  User = 'user',
+}
+
 export class CurrentUser {
+
+  public readonly id:string;
+  public readonly name:string;
+  public readonly role:UserRole;
 
   public static readonly loggedInEvent = 'logged-in';
   public static readonly loggedOutEvent = 'logged-out';
   private static instance:CurrentUser = undefined;
 
-  constructor() {
+  constructor(id:string, name:string, role:UserRole) {
     console.log('current user created');
+    this.id = id;
+    this.name = name;
+    this.role = role;
   }
 
   public static try_get():CurrentUser|undefined {
@@ -19,7 +31,7 @@ export class CurrentUser {
   }
 
   public static set(user:any):CurrentUser {
-    this.instance = new CurrentUser();
+    this.instance = new CurrentUser(user.id, `${user.first_name} ${user.last_name}`, user.role);
     window.dispatchEvent(new CustomEvent(this.loggedInEvent));
     return this.get();
   }

@@ -1,7 +1,11 @@
 import { ReactNode } from "react";
-import { PrivateComponent } from "../core/private-component";
+import { PrivateComponent, None } from "../core/private-component";
 
-class Dashboard extends PrivateComponent {
+class Dashboard extends PrivateComponent<None, None> {
+
+  constructor(props: None) {
+    super(props);
+  }
 
   public render(): ReactNode {
     return (
