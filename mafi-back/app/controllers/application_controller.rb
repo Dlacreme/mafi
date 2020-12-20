@@ -1,7 +1,5 @@
 # typed: false
 class ApplicationController < ActionController::API
-
-
   before_action :logged_in?
 
   protected
@@ -86,7 +84,7 @@ class ApplicationController < ActionController::API
 
   def parse_jwt
     return unless request.headers['Authorization'].present?
-    @jwt ||= JsonWebToken.decode(request.headers['Authorization'])
+    @jwt ||= JsonWebToken.decode(request.headers['Authorization'].delete_prefix('Bearer '))
     @current_user ||= User.find(@jwt[:user_id]) if @jwt && @jwt[:user_id]
   end
 

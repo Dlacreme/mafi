@@ -1,1 +1,1 @@
-// Dynamic types
+declare module 'window';

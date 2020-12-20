@@ -4,4 +4,7 @@ Rails.application.routes.draw do
   post 'signin', to: "auth#signin"
   post 'login', to: "auth#login"
   # User
+  resources :user, only: [:index, :show]
+  get 'me', to: 'user#me'
+  get 'user/search/:query', to: 'user#search'
 end
