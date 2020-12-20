@@ -25,3 +25,4 @@ mafi-back/storage/*
 
 # Ignore master key for decrypting credentials and more.
 mafi-back/config/master.key
+mafi-back/vendor
