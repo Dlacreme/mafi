@@ -1,8 +1,9 @@
-import Router from 'next/router';
+import Head from 'next/head'
 import '../styles/index.css';
-import { useState } from 'react';
-import { CurrentUser } from '../services/current-user';
+import { useState, useEffect } from 'react';
+import Router from 'next/router';
 import { Api } from '../services/api';
+import { CurrentUser } from '../services/current-user';
 
 /**
  * For some reason, Next does not support Typescript format for the root component
@@ -11,11 +12,12 @@ function MafiApp({ Component, pageProps }) {
 
   const [isAuth, setIsAuth] = useState(false);
 
-  function componentDidMount() {
+  useEffect(() => {
     Api.init();
     Api.get('/me').then(r => {
+      CurrentUser.set(r.data);
       const pathname = window.location.pathname;
-      if (pathname === '' || pathname === '/') {
+      if (pathname === '' || pathname === '/' || pathname.indexOf('login') >= 0) {
         Router.push('/dashboard');
       }
     }).catch(e => {
@@ -23,7 +25,18 @@ function MafiApp({ Component, pageProps }) {
     });
     window.addEventListener(CurrentUser.loggedInEvent, () => setIsAuth(true));
     window.addEventListener(CurrentUser.loggedOutEvent, () => setIsAuth(false));
-  }
+  })
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Head>
+        <title>Simply Mafi</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      { isAuth ? privateNav() : publicNav() }
+      <Component className="flex-grow" {...pageProps} />
+    </div>
+  )
 
   function publicNav() {
     return (
@@ -37,8 +50,8 @@ function MafiApp({ Component, pageProps }) {
 
   function privateNav() {
     return (
-      <nav className="bg-gray-800">
-        <div className="flex items-center justify-between h-16">
+      <nav className="bg-gray-800 text-white">
+        <div className="container mx-auto margin-auto flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <h1>MAFI</h1>
@@ -53,13 +66,6 @@ function MafiApp({ Component, pageProps }) {
       </nav>
     );
   }
-
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      { isAuth ? privateNav() : publicNav() }
-      <Component className="flex-grow" {...pageProps} />
-    </div>
-  )
 }
 
 export default MafiApp;

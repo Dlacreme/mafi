@@ -16,7 +16,6 @@ export class CurrentUser {
   private static instance:CurrentUser = undefined;
 
   constructor(id:string, name:string, role:UserRole) {
-    console.log('current user created');
     this.id = id;
     this.name = name;
     this.role = role;
