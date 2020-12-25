@@ -1,0 +1,2 @@
+class TransactionPeerType < ApplicationRecord
+end

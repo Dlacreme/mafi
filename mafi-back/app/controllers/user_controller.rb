@@ -28,5 +28,4 @@ private
     User.find(id).to_j
   end
 
-
 end
