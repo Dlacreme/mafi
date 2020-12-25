@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   resources :user, only: [:index, :show]
   get 'me', to: 'user#me'
   get 'user/search/:query', to: 'user#search'
+  # Account
+  resources :account, only: [:index, :show, :create, :update, :destroy]
 end

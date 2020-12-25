@@ -1,4 +1,5 @@
 class UserController < ApplicationController
+  before_action :logged_in?
 
   def index
     return not_found unless @current_user && @current_user.admin?
@@ -10,7 +11,6 @@ class UserController < ApplicationController
   end
 
   def show
-    logged_in?
     id = params[:id]
     id = @current_user.id if params[:id] == "0"
 

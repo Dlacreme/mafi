@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_secure_password validations: false
 
   belongs_to :role
+  has_many :accounts
 
   validates :email, presence: true, email: true, uniqueness: true
 

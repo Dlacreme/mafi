@@ -1,5 +1,6 @@
 # typed: false
 class ApplicationController < ActionController::API
+
   before_action :logged_in?
 
   protected
@@ -22,6 +23,10 @@ class ApplicationController < ActionController::API
   # save_form process the form and return a valid response
   def save_form(form, params)
     return render_json 400, "Invalid query", nil, form.errors.full_messages unless form.validate(params)
+    print "SAVE\n"
+    pp form.save
+    print "ERROR\n"
+    pp form.errors
     return render_json 500, "Oops. Server issue", nil, form.errors.full_messages if form.save != true
     return render_json 500, "Oops. Cannot preload data", nil, form.errors.full_messages unless form.prepopulate!
     render_json 200, "OK", form.model
@@ -29,7 +34,7 @@ class ApplicationController < ActionController::API
 
   # data return raw data as json
   def data(data = nil)
-    return json_json 404, "Nothing found", nil, nil if data == nil
+    return render_json 404, "Nothing found", nil, nil if data == nil
     render_json 200, "OK", data
   end
 
